@@ -288,7 +288,7 @@ modulus = 101 % 2
 
 ```
 <!-- show string -->
-```diff 9:11 subtitle="Assinging Strings"
+```diff 9:11 subtitle="Assigning Strings"
 
 ```
 <!-- show print -->
@@ -427,6 +427,27 @@ my_friends_safe_backup = copy(my_friends)
 # creates a new copy in memory
 ```
 
+<!-- show tuple -->
+```diff 1:6 subtitle="Tuples"
+
+```
+<!-- show named tuple -->
+```diff 8:12 subtitle="NamedTuples"
+
+```
+<!-- show Dictionary -->
+```diff 14:25 subtitle="Dictionaries"
+
+```
+<!-- show Array -->
+```diff 27:32 subtitle="Arrays"
+
+```
+<!-- show copy -->
+```diff 34:40 subtitle="Safe Copy"
+
+```
+
 ```erlang title="Loops"
 n = 0
 while n < 10
@@ -447,6 +468,11 @@ for n in 1:10
 end
 # prints 1 through 10 inclusively
 
+for n in 1:3:10
+    println(n)
+end
+# prints 1 4 7 10
+
 for friend in my_friends
     println("Hi $friend, it's great to see you!")
 end
@@ -464,61 +490,300 @@ for i in 1:4, j in 1:5
 end
 
 C = [i + j for i in 1:4, j in 1:5]
+```
 
+<!-- show while -->
+```diff 1:5 subtitle="While Loops"
 
+```
+<!-- show while with array -->
+```diff 7:13 subtitle="While Loops"
+
+```
+<!-- show for loop -->
+```diff 15:18 subtitle="For Loops"
+
+```
+<!-- show for loop every 3 -->
+```diff 20:23 subtitle="For Loops"
+
+```
+<!-- show iterator -->
+```diff 25:27 subtitle="For Loops"
+
+```
+<!-- show 2d array -->
+```diff 29:34 subtitle="Multi-dimension Loop"
+
+```
+<!-- show 2d array -->
+```diff 36:39 subtitle="Multi-dimension Loop"
+
+```
+<!-- show 2d array -->
+```diff 41 subtitle="Array Comprehensions"
+
+```
+
+```erlang title="Conditionals"
+if (N % 3 == 0) && (N % 5 == 0)
+    println("FizzBuzz")
+elseif N % 3 == 0
+    println("Fizz")
+elseif N % 5 == 0
+    println("Buzz")
+else
+    println(N)
+end
+
+a ? b : c
+
+false && println("This will not print")
+true && println("This will print)
+
+false || println("This will also print")
+true || println("This will print as well")
+```
+
+<!-- show conditional keywords -->
+```diff 1[1:2],3[1:6],5[1:6],7[1:4],9[1:3] subtitle="If Statements"
+
+```
+<!-- show Ternary -->
+```diff 11[3,7] subtitle="Ternary Statements"
+
+```
+<!-- show Short circuit -->
+```diff 13:17 subtitle="Short Circuit"
+
+```
+
+```erlang title="Functions"
+function sayhi(name)
+    println("Hi $name, it's great to see you!")
+end
+sayhi("C-3PO")
+# "Hi C-3PO, it's great tos ee you!"
+
+function f(x)
+    x^2
+end
+f(42)
+# 1764
+
+sayhi2(name) = println("Hi $name, it's great to see you!")
+f2(x) = x^2
+# same behavior
+
+sayhi_lambda = (first_name, last_name) -> println("Hi $first_name $last_name, it's great to see you!")
+
+v = [3, 5, 2]
+
+sort(v)
+# returns [2, 3, 5] but v == [3, 5, 2]
+
+sort!(v)
+# returns [2, 3, 5] and v == [2, 3, 5]
+
+# higher-order function
+map(f, [1, 2, 3])
+# returns [1, 3, 9]
+
+broadcast(f, [1, 2, 3])
+# the same as this
+f.([1, 2, 3])
+
+A = [i + 3j for j in 0:2, i in 1:3]
+# 3x3 Array{Int64, 2}:
+# 1 2 3
+# 4 5 6
+# 7 8 9
+
+f(A)
+# 3x3 Array{Int64, 2}:
+#  30  36  42
+#  66  81  96
+# 102 126 150
+
+f.(A)
+# 3x3 Array{Int64, 2}:
+#  1  4  9
+# 16 25 36
+# 49 64 81
+```
+
+<!-- show function -->
+```diff 1:5 subtitle="Functions"
+
+```
+<!-- show function -->
+```diff 7:11 subtitle="Functions"
+
+```
+<!-- show function -->
+```diff 13:15 subtitle="Functions"
+
+```
+<!-- show lambda -->
+```diff 17 subtitle="Lambda Functions"
+
+```
+<!-- show mutating -->
+```diff 19:25 subtitle="Mutating Functions"
+
+```
+<!-- show higher order function -->
+```diff 27:33 subtitle="Higher-Order Functions"
+
+```
+<!-- show dot operator -->
+```diff 33 subtitle="Dot Operator"
+
+```
+<!-- show dot operator -->
+```diff 35:39 subtitle="Dot Operator"
+
+```
+<!-- show dot operator -->
+```diff 41:45 subtitle="Dot Operator"
+
+```
+<!-- show dot operator -->
+```diff 47:51 subtitle="Dot Operator"
+
+```
+
+```erlang title="Multiple Dispatch"
+f(x) = x^2
+f(10)
+# 100
+
+foo(x::String, y::String) = println("X and Y are both strings")
+foo(x::Int, y::Int) = println("X and Y are both Ints")
+foo(x::Number, y::Number) = println("X and Y are both Numbers")
+foo(x::Any, y::Any) = println("X and Y could be anything!")
+```
+
+<!-- show function -->
+```diff 5[6:13,17:24,55:61],6[6:10,14:18,49:52],7[6:13,17:24,55:61],8[6:10,14:18,49:57] subtitle="Multiple Dispatch"
+
+```
+
+```erlang title="Packages"
+using Pkg
+Pkg.add("Example")
+
+using Example
+
+Pkg.add("Plots")
+using Plots
+
+Pkg.add("BenchmarkTools")
+using BenchmarkTools
+
+a = rand(10^7) # 1D vector of random numbers, uniform on [0,1)
+
+using Libdl
+C_code = """
+#include <stddef.h>
+double c_sum(size_t n, double *X) {
+    double s = 0.0;
+    for (size_t i = 0; i < n; i++) {
+        s += X[i]
+    }
+    return s;
+}
+"""
+
+const Clib = tempname() # make a temporary file
+
+# compile to a shared library by piping C_code to gcc
+
+open(`gcc -fPIC -O3 -msse3 -xc -shared -o $(Clib * "." * Libdl.dlext) -`, "w") do f
+    print(f, C_code)
+end
+
+# define a Julia function that calls the C function:
+c_sum(X::Array{Float64}) = ccall(("c_sum", Clib), Float64, (Csize_t, Ptr{Float64}), length(X), X)
+
+c_bench = @benchmark c_sum($a)
+
+Pkg.add("PyCall")
+using PyCall
+
+pysum = pybuiltin("sum")
+pysum(a)
+
+py"""
+def py_sum(A):
+    s = 0.0
+    for a in A:
+        s += a
+    return s
+"""
+
+sum_py = py"py_sum"
+sum_py(a)
+```
+
+<!-- show packages -->
+```diff 1:2 subtitle="Using Packages"
+
+```
+<!-- show packages -->
+```diff 4:10 subtitle="Using Packages"
+
+```
+<!-- show ccall -->
+```diff 14:24 subtitle="Calling C Code"
+
+```
+<!-- show ccall -->
+```diff 30:35 subtitle="Calling C Code"
+
+```
+<!-- show pycall -->
+```diff 39:40 subtitle="Calling Python Code"
+
+```
+<!-- show pycall -->
+```diff 42:43 subtitle="Calling Python Code"
+
+```
+<!-- show pycall -->
+```diff 45:54 subtitle="Calling Python Code"
+
+```
+
+<Step>
+
+```erlang
+for i in 1:100
+    println(i^2)
+end
+```
+
+</Step>
+
+<Step subtitle="Distributed Workload">
+
+```erlang
+Pkg.add("Distributed")
+using Distributed
+
+@sync @distributed for i in 1:100
+    println(i^2)
+end
+```
+
+</Step>
+
+```erlang
+squares = pmap(x -> x ^ 2, 1:10)
+println(squares)
 ```
 
 </CodeSurfer>
-
----
-
-<CodeSurferColumns themes={[vsDark, github]}>
-
-<Step>
-
-```js
-const magna = aliqua => aliqua.ut((enim, ad) => enim, 0);
-```
-
-```js
-const minim = (ad, enim) => dolore.magna(ad / enim);
-```
-
-</Step>
-
-<Step>
-
-```js
-const lorem = (ipsum, dolor, sit) => {
-  const amet = dolor - ipsum;
-  return consectetur.adipiscing(
-    {
-      elit: sed.eiusmod(sit - dolor) / amet + 2,
-    },
-    (tempor, incididunt) => ipsum + amet * incididunt
-  );
-};
-
-const magna = aliqua => aliqua.ut((enim, ad) => enim, 0);
-```
-
-```js
-const minim = (ad, enim) => dolore.magna(ad / enim);
-
-const sed = (eiusmod, tempor, incididunt) => {
-  const ut = tempor - eiusmod;
-  return labore.et(
-    {
-      amet: dolore.magna(incididunt - tempor) / ut + 2,
-    },
-    (aliqua, elit) => eiusmod + ut * elit
-  );
-};
-```
-
-</Step>
-
-</CodeSurferColumns>
 
 ---
 
