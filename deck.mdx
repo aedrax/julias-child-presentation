@@ -124,7 +124,7 @@ Python, Ruby, MATLAB
 
 ---
 
-looks like **python**, feels like **lisp**, runs like **C**
+looks like **python**, runs like **C**
 
 ---
 
@@ -211,125 +211,220 @@ alert("hey");
 
 ---
 
+# Celeste Project
+- Sloan Digital Sky Survey data
+- 178 Terabytes of data
+
+---
+
+# Celeste Project
+- 9300 KNL nodes at NERSC
+- 188 million stars/galaxies
+- < 15 minutes of run time
+- 1.54 petaflops
+- 1.3 million threads
+
+<Notes>
+- 3rd language to bypass petaflops
+- FORTRAN and C
+</Notes>
+
+---
+
+# Why use Julia for Celeste?
+
+<Notes>
+- same language for whole team
+- subject matter expert vs computer scientist
+</Notes>
+
+---
+
 <CodeSurfer>
 
 <!-- Using the Erlang syntax highlighting because Prism's julia one is bad -->
-```erlang title="This is a title" subtitle="and this a subtitle"
-  function deepcopy_internal(@nospecialize(x), stackdict::IdDict)
-      T = typeof(x)::DataType
-      teststring = """test strting"""
-      nf = nfields(x)
-      if T.mutable
-          if haskey(stackdict, x)
-              return stackdict[x]
-          end
-          y = ccall(:jl_new_struct_uninit, Any, (Any,), T)
-          stackdict[x] = y
-          for i in 1:nf
-              if isdefined(x, i)
-                  xi = getfield(x, i)
-                  xi = deepcopy_internal(xi, stackdict)::typeof(xi)
-                  ccall(:jl_set_nth_field, Cvoid, (Any, Csize_t, Any), y, i-1, xi)
-              end
-          end
-      elseif nf == 0 || isbitstype(T)
-          y = x
-      else
-          flds = Vector{Any}(undef, nf)
-          for i in 1:nf
-              if isdefined(x, i)
-                  xi = getfield(x, i)
-                  xi = deepcopy_internal(xi, stackdict)::typeof(xi)
-                  flds[i] = xi
-              else
-                  nf = i - 1 # rest of tail must be undefined values
-                  break
-              end
-          end
-          y = ccall(:jl_new_structv, Any, (Any, Ptr{Any}, UInt32), T, flds, nf)
-      end
-      return y::T
-  end
+```erlang title="Getting Started"
+my_answer = 42
+typeof(my_answer)
+# Int64
+
+my_pi = 3.14159
+typeof(my_pi)
+# Float64
+
+my_str = "Some string"
+typeof(my_str)
+# String
+
+println("I'm excited to learn Julia!")
+
+# using single line comments like this
+
+#=
+  using multiline comments
+  can be done
+  like this
+=#
+
+sum = 3 + 7
+
+difference = 10 - 3
+
+product = 20 * 5
+
+quotient = 100 / 10
+
+power = 10 ^ 2
+
+modulus = 101 % 2
+```
+
+<!-- show int -->
+```diff 1:3 subtitle="Assigning Integers"
+
+```
+<!-- show float -->
+```diff 5:7 subtitle="Assigning Floats"
+
+```
+<!-- show string -->
+```diff 9:11 subtitle="Assinging Strings"
+
+```
+<!-- show print -->
+```diff 13 subtitle="How to Print"
+
+```
+<!-- show comment -->
+```diff 15 subtitle="How to comment"
+
+```
+<!-- show multiline comment -->
+```diff 17:21 subtitle="How to comment on multiple lines"
+
+```
+<!-- show sum -->
+```diff 23 subtitle="Addition operator"
+
+```
+<!-- show subtraction -->
+```diff 25 subtitle="Subtraction operator"
+
+```
+<!-- show multiply -->
+```diff 27 subtitle="Multiplication operator"
+
+```
+<!-- show division -->
+```diff 29 subtitle="Division operator"
+
+```
+<!-- show exponent -->
+```diff 31 subtitle="Power operator"
+
+```
+<!-- show modulo -->
+```diff 33 subtitle="Modulus operator"
 
 ```
 
-```diff 3 subtitle="log 3"
+```erlang title="Strings and Things"
+s1 = "I am a string."
+s2 = """I am also a "special" string. """
+formatted = """I am a formated string
+
+
+with newlines"""
+
+typeof('a')
+# Char
+
+name = "Jane"
+num_fingers = 10
+num_toes = 10
+
+println("Hello, my name is $name.")
+println("I have $num_fingers fingers and $num_toes toes.")
+
+println("That is $(num_fingers + num_toes) total digits.")
+
+s3 = "How many dogs ";
+s4 = "is too many dogs?";
+dogs = 10
+
+string(s3, s4)
+# "How many dogs is too many dogs?"
+
+string("I don't know, but ", dogs, " is too few.")
+# "I don't know, but 10 is too few."
+
+s3*s4
+# "How many dogs is too many dogs?"
 
 ```
 
-```js
-function lorem(ipsum, dolor = 1) {
-  const sit = ipsum == null ? 0 : ipsum.sit;
-  dolor = sit - amet(dolor);
-  return sit
-    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
-    : [];
-}
+<!-- show strings -->
+```diff 1:2 subtitle="Basic Strings"
 
-function incididunt(ipsum, ut = 1) {
-  ut = labore.et(amet(ut), 0);
-  const sit = ipsum == null ? 0 : ipsum.sit;
+```
+<!-- show formatted strings -->
+```diff 3:6 subtitle="Formatted Strings"
 
-  if (!sit || ut < 1) {
-    return [];
-  }
+```
+<!-- show char -->
+```diff 8:9 subtitle="Char is not a String"
 
-  let dolore = 0;
-  let magna = 0;
-  const aliqua = new eiusmod(labore.ut(sit / ut));
+```
+<!-- show interpolation -->
+```diff 11:18 subtitle="String Interpolation"
 
-  while (dolore < sit) {
-    aliqua[magna++] = consectetur(
-      ipsum,
-      dolore,
-      (dolore += ut)
-    );
-  }
+```
+<!-- show concat -->
+```diff 20:31 subtitle="String Concatenation"
 
-  return aliqua;
-}
 ```
 
-```js
-function lorem(ipsum, dolor = 1) {
-  const sit = ipsum == null ? 0 : ipsum.sit;
-  dolor = sit - amet(dolor);
-  return sit
-    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
-    : [];
-}
+```erlang title="Data Structures"
+my_pets = ("cat", "dog", "gecko")
+my_pets[1])
+# "cat"
 
-function adipiscing(...elit) {
-  if (!elit.sit) {
-    return [];
-  }
+my_pets[1] = "rock"
+# a MethodError will occur, tuples are immutable
 
-  const sed = elit[0];
-  return eiusmod.tempor(sed) ? sed : [sed];
-}
+my_named_pets = (cat = "alice", dog = "bob", gecko = "charlie")
+my_named_pets[1]
+# "alice"
+my_named_pets.gecko
+# "charlie"
 
-function incididunt(ipsum, ut = 1) {
-  ut = labore.et(amet(ut), 0);
-  const sit = ipsum == null ? 0 : ipsum.sit;
+my_dictionary = Dict()
+# Dict{Any, Any}
+my_contacts = Dict("Jenny" => "867-5309", "Ghostbusters" => "555-2368")
 
-  if (!sit || ut < 1) {
-    return [];
-  }
+my_contacts["Jenny"]
+# "867-5309"
 
-  let dolore = 0;
-  let magna = 0;
-  const aliqua = new eiusmod(labore.ut(sit / ut));
+my_contacts["Kramer"] = "555-FILK"
+my_contacts["Kramer"]
+# "555-FILK"
 
-  while (dolore < sit) {
-    aliqua[magna++] = consectetur(
-      ipsum,
-      dolore,
-      (dolore += ut)
-    );
-  }
+pop!(my_contacts, "Kramer")
 
-  return aliqua;
-}
+my_friends = ["Rachel", "Monica", "Phoebe", "Joey", "Chandler", "Ross"]
+push!(my_friends, "Janice")
+# results in ["Rachel", "Monica", "Phoebe", "Joey", "Chandler", "Ross", "Janice"]
+
+pop!(my_friends)
+# results in ["Rachel", "Monica", "Phoebe", "Joey", "Chandler", "Ross"]
+
+my_friends_backup = my_friends
+my_friends_backup[1] = "CHANGED"
+my_friends
+# ["CHANGED", "Monica", "Phoebe", "Joey", "Chandler", "Ross"]
+
+my_friends_safe_backup = copy(my_friends)
+# creates a new copy in memory
 ```
 
 ```diff 1[10:14],2[15:19],3[22:27],10:12
