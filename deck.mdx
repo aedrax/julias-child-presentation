@@ -10,6 +10,7 @@ export const theme = vsDark;
 
 # Julia's Child
 Fine, French Programming
+<img src="https://www.pbs.org/wnet/americanmasters/files/2005/06/JuliaChild-16x9-400x400.jpg"/>
 
 <Notes>
 - These are speaker notes
@@ -61,6 +62,13 @@ Why do we use programming languages
 # Start with "Why?"
 
 Why should we consider another language
+
+---
+
+# Start with "Why?"
+
+Why should we consider another language
+- "Sharpen the saw"
 
 ---
 
@@ -200,14 +208,29 @@ end
 
 # How can we do this?
 
-```js
-console.log(3);
-alert("hey");
-```
+- Free and open source (MIT licensed)
+- Generates LLVM IR
+- User-defined types are as fast and compact as built-ins
+- No need to vectorize code for performance; devectorized code is fast
 
 ---
 
-# Celeste Project
+# How can we do this?
+
+- Designed for parallelism and distributed computation
+- Lightweight "green" threading (coroutines)
+- Unobtrusive yet powerful type system
+- Call C functions directly (no wrappers or special APIs needed)
+- Powerful shell-like capabilities for managing other processes
+
+---
+
+# Julia
+
+---
+
+# Use Case Example
+### Celeste Project
 
 ---
 
@@ -237,6 +260,13 @@ alert("hey");
 - same language for whole team
 - subject matter expert vs computer scientist
 </Notes>
+
+---
+
+# Why use Julia for Celeste?
+
+- same language for whole team
+- subject matter expert vs computer scientist
 
 ---
 
@@ -328,6 +358,12 @@ modulus = 101 % 2
 
 ```
 
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
 ```erlang title="Strings and Things"
 s1 = "I am a string."
 s2 = """I am also a "special" string. """
@@ -383,6 +419,12 @@ s3*s4
 ```diff 20:31 subtitle="String Concatenation"
 
 ```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
 
 ```erlang title="Data Structures"
 my_pets = ("cat", "dog", "gecko")
@@ -447,6 +489,12 @@ my_friends_safe_backup = copy(my_friends)
 ```diff 34:40 subtitle="Safe Copy"
 
 ```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
 
 ```erlang title="Loops"
 n = 0
@@ -525,6 +573,12 @@ C = [i + j for i in 1:4, j in 1:5]
 
 ```
 
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
 ```erlang title="Conditionals"
 if (N % 3 == 0) && (N % 5 == 0)
     println("FizzBuzz")
@@ -539,7 +593,7 @@ end
 a ? b : c
 
 false && println("This will not print")
-true && println("This will print)
+true && println("This will print")
 
 false || println("This will also print")
 true || println("This will print as well")
@@ -558,12 +612,18 @@ true || println("This will print as well")
 
 ```
 
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
 ```erlang title="Functions"
 function sayhi(name)
     println("Hi $name, it's great to see you!")
 end
 sayhi("C-3PO")
-# "Hi C-3PO, it's great tos ee you!"
+# "Hi C-3PO, it's great to see you!"
 
 function f(x)
     x^2
@@ -653,6 +713,12 @@ f.(A)
 
 ```
 
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
 ```erlang title="Multiple Dispatch"
 f(x) = x^2
 f(10)
@@ -662,12 +728,24 @@ foo(x::String, y::String) = println("X and Y are both strings")
 foo(x::Int, y::Int) = println("X and Y are both Ints")
 foo(x::Number, y::Number) = println("X and Y are both Numbers")
 foo(x::Any, y::Any) = println("X and Y could be anything!")
+
+bar(x::Any)::String = "The result will be a string"
 ```
 
 <!-- show function -->
 ```diff 5[6:13,17:24,55:61],6[6:10,14:18,49:52],7[6:13,17:24,55:61],8[6:10,14:18,49:57] subtitle="Multiple Dispatch"
 
 ```
+<!-- show return type -->
+```diff 10[12:19] subtitle="Return Types"
+
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
 
 ```erlang title="Packages"
 using Pkg
@@ -755,6 +833,12 @@ sum_py(a)
 
 ```
 
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
 <Step>
 
 ```erlang
@@ -787,5 +871,11 @@ println(squares)
 
 ---
 
-docs:  
-[codesurfer.pomb.us](https://codesurfer.pomb.us)
+# Refs:
+Julia for beginners: A springboard to machine learning for all ages
+- Tanmay Bakshi
+
+Intro to Julia (Version 1.0)
+- Jane Herriman
+
+[codesurfer](https://codesurfer.pomb.us)
