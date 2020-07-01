@@ -75,13 +75,189 @@ Why should we consider another language
 - One language for efficiency
 </Notes>
 
-You are using [MDX Deck](https://github.com/jxnblk/mdx-deck) and [Code Surfer](https://codesurfer.pomb.us)
+---
+
+<Notes>
+- 3rd problem is generality
+</Notes>
+
+<CodeSurferColumns themes={[vsDark, github]}>
+
+<Step title="The two language problem">
+
+```c
+#include <stddef.h>
+double c_sum(size_t n, double *X) {
+    double s = 0.0;
+    for (size_t i = 0; i < n; ++i) {
+        s += X[i];
+    }
+    return s;
+}
+```
+
+<div>
+<h1>Performance</h1>
+C, Fortran, Assembly
+</div>
+
+</Step>
+
+<Step title="The two language problem">
+
+```python
+def py_sum(A):
+    s = 0.0
+    for a in A:
+        s += a
+    return s
+```
+
+<div>
+<h1>Prototyping</h1>
+Python, Ruby, MATLAB
+</div>
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+looks like **python**, feels like **lisp**, runs like **C**
+
+---
+
+# Runs like C
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mstyle displaystyle="true">
+    <mrow class="MJX-TeXAtom-ORD">
+      <mi>s</mi>
+      <mi>u</mi>
+      <mi>m</mi>
+      <mo stretchy="false">(</mo>
+      <mi>a</mi>
+      <mo stretchy="false">)</mo>
+      <mo>=</mo>
+      <munderover>
+        <mo movablelimits="false">&#x2211;</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi>i</mi>
+          <mo>=</mo>
+          <mn>1</mn>
+        </mrow>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi>n</mi>
+        </mrow>
+      </munderover>
+      <mrow class="MJX-TeXAtom-ORD">
+        <msub>
+          <mi>a</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+      </mrow>
+    </mrow>
+  </mstyle>
+</math>
+
+- C: 10 ms
+- python: 500 ms
+- julia: 10 ms
+
+<Notes>
+- 10 million element vector
+</Notes>
 
 ---
 
 <CodeSurfer>
 
-```js title="This is a title" subtitle="and this a subtitle"
+<!-- Using the Erlang syntax highlighting because Prism's julia one is bad -->
+```python title="Looks like python"
+def sum(a):
+    s = 0.0
+    for x in a:
+        s += x
+    return s
+```
+
+```erlang title="Looks like python" subtitle="Julia version"
+function sum(a)
+    s = 0.0
+    for x in a
+        s += x
+    end
+    return s
+end
+```
+
+</CodeSurfer>
+
+---
+
+# How can we do this?
+
+```js
+console.log(3);
+alert("hey");
+```
+
+---
+
+# Celeste Project
+
+---
+
+<CodeSurfer>
+
+<!-- Using the Erlang syntax highlighting because Prism's julia one is bad -->
+```erlang title="This is a title" subtitle="and this a subtitle"
+  function deepcopy_internal(@nospecialize(x), stackdict::IdDict)
+      T = typeof(x)::DataType
+      teststring = """test strting"""
+      nf = nfields(x)
+      if T.mutable
+          if haskey(stackdict, x)
+              return stackdict[x]
+          end
+          y = ccall(:jl_new_struct_uninit, Any, (Any,), T)
+          stackdict[x] = y
+          for i in 1:nf
+              if isdefined(x, i)
+                  xi = getfield(x, i)
+                  xi = deepcopy_internal(xi, stackdict)::typeof(xi)
+                  ccall(:jl_set_nth_field, Cvoid, (Any, Csize_t, Any), y, i-1, xi)
+              end
+          end
+      elseif nf == 0 || isbitstype(T)
+          y = x
+      else
+          flds = Vector{Any}(undef, nf)
+          for i in 1:nf
+              if isdefined(x, i)
+                  xi = getfield(x, i)
+                  xi = deepcopy_internal(xi, stackdict)::typeof(xi)
+                  flds[i] = xi
+              else
+                  nf = i - 1 # rest of tail must be undefined values
+                  break
+              end
+          end
+          y = ccall(:jl_new_structv, Any, (Any, Ptr{Any}, UInt32), T, flds, nf)
+      end
+      return y::T
+  end
+
+```
+
+```diff 3 subtitle="log 3"
+
+```
+
+```js
 function lorem(ipsum, dolor = 1) {
   const sit = ipsum == null ? 0 : ipsum.sit;
   dolor = sit - amet(dolor);
