@@ -839,19 +839,13 @@ sum_py(a)
 
 <CodeSurfer>
 
-<Step>
-
-```erlang
+```erlang title="Distributed Code"
 for i in 1:100
     println(i^2)
 end
 ```
 
-</Step>
-
-<Step subtitle="Distributed Workload">
-
-```erlang
+```erlang title="Distributed Code"
 Pkg.add("Distributed")
 using Distributed
 
@@ -860,9 +854,7 @@ using Distributed
 end
 ```
 
-</Step>
-
-```erlang
+```erlang title="Process Mapping"
 squares = pmap(x -> x ^ 2, 1:10)
 println(squares)
 ```
